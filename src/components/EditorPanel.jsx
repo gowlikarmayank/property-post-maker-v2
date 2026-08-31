@@ -1,9 +1,10 @@
 import React from 'react';
 import { 
   Home, MapPin, IndianRupee, Sparkles, 
-  Layout, ShieldCheck, Phone, Check, Zap, Building2, Globe
+  Layout, ShieldCheck, Check, Zap, Building2, Globe
 } from 'lucide-react';
 import { ASPECT_RATIOS, BADGES, SAMPLE_PRESETS } from '../constants/presets';
+import { DEFAULT_IMAGES } from '../constants/defaultImages';
 
 export default function EditorPanel({
   data,
@@ -14,6 +15,8 @@ export default function EditorPanel({
   setAspectRatioId,
   selectedBadge,
   setSelectedBadge,
+  activeImageId,
+  setActiveImageId,
   onApplyPreset
 }) {
   const handleInputChange = (field, value) => {
@@ -51,7 +54,7 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 1: CORE 4 INPUT FIELDS */}
+      {/* STEP 1: PROPERTY DETAILS */}
       <div className="editor-card main-inputs-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
@@ -135,14 +138,14 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 2: FORMAT & STATUS BADGES */}
+      {/* STEP 2: FORMAT & STATUS BADGE (NO THEMES/POSTER STYLES) */}
       <div className="editor-card styling-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
             <div className="step-badge">2</div>
             <div>
               <h2 className="section-title">Format & Status Badge</h2>
-              <p className="section-desc">Select social media format and listing highlight tag</p>
+              <p className="section-desc">Choose social media aspect ratio and property status tag</p>
             </div>
           </div>
         </div>
@@ -196,14 +199,46 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 3: AUTO-BRANDING & CONTACT STRIP */}
-      <div className="editor-card branding-card">
+      {/* STEP 3: BACKGROUND VISUAL (CURATED PHOTOS, NO FILE UPLOAD) */}
+      <div className="editor-card media-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
             <div className="step-badge">3</div>
             <div>
+              <h2 className="section-title">Background Architecture</h2>
+              <p className="section-desc">Select curated high-res luxury property backdrop</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="images-grid">
+          {DEFAULT_IMAGES.map((img) => (
+            <button
+              key={img.id}
+              type="button"
+              className={`img-thumb-btn ${activeImageId === img.id ? 'active' : ''}`}
+              onClick={() => setActiveImageId(img.id)}
+            >
+              <img src={img.thumbnail} alt={img.name} />
+              <span className="img-thumb-label">{img.category}</span>
+              {activeImageId === img.id && (
+                <div className="img-selected-overlay">
+                  <Check size={16} />
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* STEP 4: AUTO-BRANDING & CONTACT STRIP */}
+      <div className="editor-card branding-card">
+        <div className="card-header">
+          <div className="flex items-center gap-2">
+            <div className="step-badge">4</div>
+            <div>
               <h2 className="section-title">Auto-Branding & Contact Strip</h2>
-              <p className="section-desc">Auto-embedded in the post (pre-filled, fully customizable)</p>
+              <p className="section-desc">Auto-added to the post (pre-filled, fully customizable)</p>
             </div>
           </div>
         </div>

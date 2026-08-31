@@ -27,6 +27,7 @@ export default function App() {
   const [branding, setBranding] = useState(DEFAULT_BRANDING);
   const [aspectRatioId, setAspectRatioId] = useState('1:1');
   const [selectedBadge, setSelectedBadge] = useState('JUST LISTED');
+  const [activeImageId, setActiveImageId] = useState('villa-1');
   const [isCaptionModalOpen, setIsCaptionModalOpen] = useState(false);
 
   const previewCardRef = useRef(null);
@@ -40,6 +41,7 @@ export default function App() {
     });
     if (preset.badge !== undefined) setSelectedBadge(preset.badge);
     if (preset.aspectRatio) setAspectRatioId(preset.aspectRatio);
+    if (preset.imageId) setActiveImageId(preset.imageId);
   };
 
   const handleReset = () => {
@@ -47,6 +49,7 @@ export default function App() {
     setBranding(DEFAULT_BRANDING);
     setAspectRatioId('1:1');
     setSelectedBadge('JUST LISTED');
+    setActiveImageId('villa-1');
   };
 
   return (
@@ -72,6 +75,8 @@ export default function App() {
               setAspectRatioId={setAspectRatioId}
               selectedBadge={selectedBadge}
               setSelectedBadge={setSelectedBadge}
+              activeImageId={activeImageId}
+              setActiveImageId={setActiveImageId}
               onApplyPreset={handleApplyPreset}
             />
           </div>
@@ -84,6 +89,7 @@ export default function App() {
               branding={branding}
               aspectRatioId={aspectRatioId}
               selectedBadge={selectedBadge}
+              activeImageId={activeImageId}
               onOpenCaptions={() => setIsCaptionModalOpen(true)}
             />
           </div>

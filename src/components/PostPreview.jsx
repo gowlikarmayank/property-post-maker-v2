@@ -5,19 +5,28 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { toPng, toBlob } from 'html-to-image';
+import { THEMES } from '../constants/themes';
 import { ASPECT_RATIOS } from '../constants/presets';
+import { DEFAULT_IMAGES } from '../constants/defaultImages';
 
 const PostPreview = forwardRef(function PostPreview({
   data,
   branding,
   aspectRatioId,
   selectedBadge,
+  activeImageId,
   onOpenCaptions
 }, ref) {
   const [isExporting, setIsExporting] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // Default theme is Midnight Gold (signature luxury theme)
+  const currentTheme = THEMES[0];
   const currentRatio = ASPECT_RATIOS.find(r => r.id === aspectRatioId) || ASPECT_RATIOS[0];
+  
+  // Resolve background image from default curated visuals
+  const defaultImg = DEFAULT_IMAGES.find(img => img.id === activeImageId) || DEFAULT_IMAGES[0];
+  const bgImageUrl = defaultImg.url;
 
   // Parse highlights into tags
   const highlightsList = data.highlights
@@ -140,96 +149,134 @@ const PostPreview = forwardRef(function PostPreview({
           {/* THE ACTUAL EXPORTABLE CARD */}
           <div
             ref={ref}
-            className={`post-card signature-luxury-post ratio-${aspectRatioId.replace(':', '-')}`}
+            className={`post-card theme-${currentTheme.id} ratio-${aspectRatioId.replace(':', '-')}`}
+            style={{
+              fontFamily: currentTheme.fontBody,
+              backgroundImage: `url(${bgImageUrl})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
           >
-            {/* Ambient Background Decorative Grid & Light Orbs */}
-            <div className="post-ambient-bg">
-              <div className="ambient-orb orb-gold"></div>
-              <div className="ambient-orb orb-emerald"></div>
-              <div className="ambient-orb orb-indigo"></div>
-              <div className="architectural-grid-pattern"></div>
-              <div className="luxury-geometric-accent"></div>
-            </div>
+            {/* Dynamic Ambient Overlay */}
+            <div 
+              className="post-overlay"
+              style={{ background: currentTheme.overlayGradient }}
+            />
 
-            {/* TOP BAR: Brand Box & Status Badge */}
+            {/* TOP BAR: Logo & Brand Strip + Badge */}
             <div className="post-header-strip">
-              <div className="post-brand-box">
-                <div className="brand-logo-mark">
+              <div className="post-brand-box" style={{ background: currentTheme.cardBg, borderColor: currentTheme.cardBorder }}>
+                <div className="brand-logo-mark" style={{ background: currentTheme.priceBg, color: currentTheme.priceText }}>
                   <Building2 size={18} />
                 </div>
                 <div className="brand-text-col">
-                  <span className="brand-name">
+                  <span className="brand-name" style={{ color: currentTheme.textColor }}>
                     {branding.agencyName || 'VERTEX ESTATES'}
                   </span>
-                  <span className="brand-tagline">
+                  <span className="brand-tagline" style={{ color: currentTheme.subTextColor }}>
                     {branding.tagline || 'LUXURY REAL ESTATE'}
                   </span>
                 </div>
               </div>
 
               {selectedBadge && (
-                <div className="post-status-badge">
-                  <Sparkles size={12} className="text-amber-400" />
+                <div 
+                  className="post-status-badge"
+                  style={{
+                    background: currentTheme.badgeBg,
+                    borderColor: currentTheme.badgeBorder,
+                    color: currentTheme.badgeText
+                  }}
+                >
+                  <Sparkles size={12} />
                   <span>{selectedBadge}</span>
                 </div>
               )}
             </div>
 
-            {/* WATERMARK */}
+            {/* CANDIDATE WATERMARK */}
             <div className="post-watermark">
               <span>✦ Created with Property Post Maker · Built by Mayank</span>
             </div>
 
-            {/* MAIN CONTENT GLASS CARD */}
+            {/* BOTTOM / MAIN CONTENT CARD */}
             <div className="post-content-wrap">
-              <div className="post-glass-card">
+              <div 
+                className="post-glass-card"
+                style={{
+                  background: currentTheme.cardBg,
+                  borderColor: currentTheme.cardBorder,
+                  backdropFilter: 'blur(16px)'
+                }}
+              >
                 {/* Price & Location Header */}
                 <div className="post-card-top-row">
-                  <div className="post-location-tag">
-                    <MapPin size={15} className="text-emerald-400" />
-                    <span>{data.location || 'Sushant Golf City, Lucknow'}</span>
+                  <div className="post-location-tag" style={{ color: currentTheme.subTextColor }}>
+                    <MapPin size={15} style={{ color: currentTheme.accentColor }} />
+                    <span style={{ color: currentTheme.textColor }}>{data.location || 'Sushant Golf City, Lucknow'}</span>
                   </div>
 
-                  <div className="post-price-badge">
+                  <div 
+                    className="post-price-badge"
+                    style={{
+                      background: currentTheme.priceBg,
+                      color: currentTheme.priceText
+                    }}
+                  >
                     <span className="price-val">{data.price || '₹2.5 Cr onwards'}</span>
                   </div>
                 </div>
 
                 {/* Property & Type Title */}
-                <h3 className="post-property-title">
+                <h3 
+                  className="post-property-title"
+                  style={{ 
+                    color: currentTheme.textColor,
+                    fontFamily: currentTheme.fontHeadline 
+                  }}
+                >
                   {data.title || '4 BHK Luxury Villa, Ansal Golf City'}
                 </h3>
 
                 {/* Highlights Tags */}
                 <div className="post-highlights-row">
                   {highlightsList.map((hl, i) => (
-                    <span key={i} className="highlight-pill">
-                      <span className="highlight-dot" />
+                    <span 
+                      key={i} 
+                      className="highlight-pill"
+                      style={{
+                        background: currentTheme.tagBg,
+                        color: currentTheme.tagText,
+                        borderColor: currentTheme.cardBorder
+                      }}
+                    >
+                      <span className="highlight-dot" style={{ background: currentTheme.accentColor }} />
                       {hl}
                     </span>
                   ))}
                 </div>
 
                 {/* AUTO-ADDED CONTACT FOOTER BAR */}
-                <div className="post-contact-strip">
+                <div className="post-contact-strip" style={{ borderColor: currentTheme.cardBorder }}>
                   <div className="contact-item">
-                    <Phone size={13} className="text-amber-400" />
-                    <span>{branding.phone || '+91 98765 43210'}</span>
+                    <Phone size={13} style={{ color: currentTheme.accentColor }} />
+                    <span style={{ color: currentTheme.textColor }}>{branding.phone || '+91 98765 43210'}</span>
                   </div>
 
-                  <div className="contact-divider" />
+                  <div className="contact-divider" style={{ background: currentTheme.cardBorder }} />
 
                   <div className="contact-item">
-                    <Globe size={13} className="text-amber-400" />
-                    <span>{branding.website || 'vertexestates.com'}</span>
+                    <Globe size={13} style={{ color: currentTheme.accentColor }} />
+                    <span style={{ color: currentTheme.textColor }}>{branding.website || 'vertexestates.com'}</span>
                   </div>
 
                   {branding.rera && (
                     <>
-                      <div className="contact-divider" />
+                      <div className="contact-divider" style={{ background: currentTheme.cardBorder }} />
                       <div className="contact-item rera-item">
                         <ShieldCheck size={13} className="text-emerald-400" />
-                        <span>RERA: {branding.rera}</span>
+                        <span style={{ color: currentTheme.subTextColor }}>RERA: {branding.rera}</span>
                       </div>
                     </>
                   )}
@@ -244,7 +291,7 @@ const PostPreview = forwardRef(function PostPreview({
       <div className="preview-footer-tips">
         <div className="tip-item">
           <Sparkles size={14} className="text-amber-400" />
-          <span>Post auto-formats typography, branding & RERA verified contact info.</span>
+          <span>Post automatically adds high-res typography, logo bar & RERA verified contact info.</span>
         </div>
         <button 
           type="button"

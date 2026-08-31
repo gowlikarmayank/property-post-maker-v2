@@ -6,7 +6,8 @@ export const SAMPLE_PRESETS = [
     price: '₹2.5 Cr onwards',
     highlights: '3000 sq.ft · Corner plot · Ready to move',
     badge: 'JUST LISTED',
-    aspectRatio: '1:1'
+    aspectRatio: '1:1',
+    imageId: 'villa-1'
   },
   {
     name: 'Marine Drive Sea-Facing Penthouse',
@@ -15,7 +16,8 @@ export const SAMPLE_PRESETS = [
     price: '₹14.8 Cr onwards',
     highlights: '4200 sq.ft · Private Deck · Panoramic Ocean View',
     badge: 'EXCLUSIVE',
-    aspectRatio: '1:1'
+    aspectRatio: '1:1',
+    imageId: 'penthouse-1'
   },
   {
     name: 'Bangalore Smart Eco-Villa',
@@ -24,7 +26,8 @@ export const SAMPLE_PRESETS = [
     price: '₹6.25 Cr onwards',
     highlights: '5500 sq.ft · Private Lap Pool · 100% Solar Powered',
     badge: 'FOR SALE',
-    aspectRatio: '4:5'
+    aspectRatio: '4:5',
+    imageId: 'pool-villa'
   },
   {
     name: 'DLF Golf Links Mansion',
@@ -33,7 +36,8 @@ export const SAMPLE_PRESETS = [
     price: '₹28.5 Cr onwards',
     highlights: '8500 sq.ft · Double Height Ceiling · 4 Car Parks',
     badge: 'HOT DEAL',
-    aspectRatio: '1:1'
+    aspectRatio: '1:1',
+    imageId: 'mansion-1'
   }
 ];
 
