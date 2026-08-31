@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Home, MapPin, IndianRupee, Sparkles, 
-  Layout, ShieldCheck, Check, Zap, Building2, Globe
+  Layout, ShieldCheck, Phone, Check, Zap
 } from 'lucide-react';
 import { ASPECT_RATIOS, BADGES, SAMPLE_PRESETS } from '../constants/presets';
 import { DEFAULT_IMAGES } from '../constants/defaultImages';
@@ -42,7 +42,6 @@ export default function EditorPanel({
           {SAMPLE_PRESETS.map((preset, idx) => (
             <button
               key={idx}
-              type="button"
               className="preset-btn"
               onClick={() => onApplyPreset(preset)}
               title={`Load: ${preset.title}`}
@@ -54,7 +53,7 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 1: PROPERTY DETAILS */}
+      {/* CORE 4 INPUT FIELDS */}
       <div className="editor-card main-inputs-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
@@ -138,14 +137,14 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 2: FORMAT & STATUS BADGE (NO THEMES/POSTER STYLES) */}
+      {/* DESIGN & RATIO CONTROLS (WITHOUT THEME SELECTOR / POSTER STYLES) */}
       <div className="editor-card styling-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
             <div className="step-badge">2</div>
             <div>
-              <h2 className="section-title">Format & Status Badge</h2>
-              <p className="section-desc">Choose social media aspect ratio and property status tag</p>
+              <h2 className="section-title">Design Style & Ratio</h2>
+              <p className="section-desc">Choose from high-converting social formats & status badges</p>
             </div>
           </div>
         </div>
@@ -160,7 +159,6 @@ export default function EditorPanel({
             {ASPECT_RATIOS.map((ratio) => (
               <button
                 key={ratio.id}
-                type="button"
                 className={`ratio-chip ${aspectRatioId === ratio.id ? 'active' : ''}`}
                 onClick={() => setAspectRatioId(ratio.id)}
               >
@@ -181,7 +179,6 @@ export default function EditorPanel({
             {BADGES.map((badge) => (
               <button
                 key={badge}
-                type="button"
                 className={`badge-pill ${selectedBadge === badge ? 'active' : ''}`}
                 onClick={() => setSelectedBadge(badge)}
               >
@@ -189,7 +186,6 @@ export default function EditorPanel({
               </button>
             ))}
             <button
-              type="button"
               className={`badge-pill ${selectedBadge === '' ? 'active' : ''}`}
               onClick={() => setSelectedBadge('')}
             >
@@ -199,14 +195,14 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 3: BACKGROUND VISUAL (CURATED PHOTOS, NO FILE UPLOAD) */}
+      {/* BACKGROUND IMAGE PICKER (WITHOUT CUSTOM UPLOAD) */}
       <div className="editor-card media-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
             <div className="step-badge">3</div>
             <div>
-              <h2 className="section-title">Background Architecture</h2>
-              <p className="section-desc">Select curated high-res luxury property backdrop</p>
+              <h2 className="section-title">Background Visual</h2>
+              <p className="section-desc">Select high-res architecture photo</p>
             </div>
           </div>
         </div>
@@ -215,7 +211,6 @@ export default function EditorPanel({
           {DEFAULT_IMAGES.map((img) => (
             <button
               key={img.id}
-              type="button"
               className={`img-thumb-btn ${activeImageId === img.id ? 'active' : ''}`}
               onClick={() => setActiveImageId(img.id)}
             >
@@ -231,7 +226,7 @@ export default function EditorPanel({
         </div>
       </div>
 
-      {/* STEP 4: AUTO-BRANDING & CONTACT STRIP */}
+      {/* AUTO-BRANDING & CONTACT STRIP CUSTOMIZATION */}
       <div className="editor-card branding-card">
         <div className="card-header">
           <div className="flex items-center gap-2">
